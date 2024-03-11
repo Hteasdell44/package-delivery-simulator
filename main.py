@@ -7,7 +7,9 @@ from builtins import ValueError
 from hash_table import HashTable
 from models.package import Package
 
+# Helper Functions
 
+# Loads the hash table with package data from the csv file.
 def load_hash_table(filename, hash_table):
 
     # Open the CSV file and read package data
@@ -31,13 +33,13 @@ def load_hash_table(filename, hash_table):
             hash_table.insert(packageID, package_data_object)
 
 
-# Nearest Neighbor Algorithm Implementation
+# Nearest neighbor algorithm implementation to find an optimal delivery route.
 def find_optimal_route(truck):
 
-    # List to store packages that need to be delivered
+    # List to store packages that need to be delivered.
     packages_to_deliver = []
 
-    # Populate the packages_to_deliver list with package objects
+    # Populate the packages_to_deliver list with all package objects in the truck's packages attribute.
     for packageID in truck.packages:
         package = hash_table.lookup(packageID)
         packages_to_deliver.append(package)
@@ -48,19 +50,19 @@ def find_optimal_route(truck):
 
     while len(packages_to_deliver) > 0:
 
-        # Initialize variables for the next nearest package
-        next_address = float('inf')  # Set to positive infinity initially
+        # Initialize variables for the next nearest package and its address.
+        next_address = float('inf')  # Set to positive infinity initially.
         next_package = None
 
-        # Iterate through the remaining packages to find the nearest one
+        # Iterate through the remaining packages to find the nearest one.
         for package in packages_to_deliver:
-            # Calculate the distance from the current truck location to the package address
+            # Calculate the distance from the current truck location to the package address.
             distance_to_package = calculate_distance(
                 extract_address(truck.address),
                 extract_address(package.address)
             )
 
-            # Check if the current package is closer than the previously found nearest package
+            # Check if the current package is closer than the previously found nearest package.
             if distance_to_package <= next_address:
                 next_address = distance_to_package
                 next_package = package
@@ -74,9 +76,8 @@ def find_optimal_route(truck):
         next_package.delivery_time = truck.time
         next_package.departure_time = truck.depart_time
 
-
+# Calculate the distance between two addresses.
 def calculate_distance(x, y):
-    # Calculate distance between two addresses
     distance = csv_distance[x][y]
 
     # If the distance is not available in one direction, use the distance from the opposite direction
@@ -85,14 +86,13 @@ def calculate_distance(x, y):
 
     return float(distance)
 
-
+ # Extract address information from CSV data
 def extract_address(address):
-    # Extract address information from CSV data
     for row in csv_address:
         if address in row[2]:
             return int(row[0])
 
-
+# Main program function
 def main():
     # Establishing necessary variables and making them accessible throughout the program
     global csv_distance, csv_address, csv_package, hash_table
@@ -223,6 +223,5 @@ def main():
         else:
             print("Invalid input. Please enter '1', '2', or '3'.")
 
-# Call the main function if the script is being run as the main program.
-if __name__ == "__main__":
-    main()
+# Call the main function.
+main()
