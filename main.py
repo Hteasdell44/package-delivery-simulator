@@ -92,7 +92,7 @@ def extract_address(address):
 # Main program function
 def main():
     # Establishing necessary variables and making them accessible throughout the program
-    global csv_distance, csv_address, csv_package, hash_table
+    global csv_distance, csv_address, csv_package, hash_table, truck_one, truck_two, truck_three
 
     # Load CSV data and initialize
     csv_distance = list(csv.reader(open("csv/distance_data.csv")))
@@ -106,9 +106,9 @@ def main():
     load_hash_table("csv/package_data.csv", hash_table)
 
     # Initialize the three delivery trucks based on special notes
-    truck_one = Truck(1, [1, 13, 14, 15, 16, 20, 29, 30, 31, 34, 37, 40], datetime.timedelta(hours=8))
-    truck_two = Truck(2, [3, 6, 12, 17, 18, 19, 21, 22, 23, 24, 26, 27, 35, 36, 38, 39], datetime.timedelta(hours=9, minutes=5))
-    truck_three = Truck(3, [2, 4, 5, 6, 7, 8, 9, 10, 11, 25, 28, 32, 33], datetime.timedelta(hours=10, minutes=20))
+    truck_one = Truck(1, [1, 13, 14, 15, 16, 19, 20, 29, 30, 31, 34, 37, 40], datetime.timedelta(hours=8))
+    truck_two = Truck(2, [3, 6, 17, 18, 21, 22, 23, 24, 26, 27, 35, 36, 38, 39], datetime.timedelta(hours=9, minutes=5))
+    truck_three = Truck(3, [2, 4, 5, 7, 8, 9, 10, 11, 12, 25, 28, 32, 33], datetime.timedelta(hours=10, minutes=20))
 
     # Use the nearest neighbor implementation to find the optimal delivery route for each truck
     find_optimal_route(truck_one)
@@ -168,7 +168,7 @@ def main():
                 convert_timedelta = datetime.timedelta(hours=int(user_time[:2]), minutes=int(user_time[3:5]), seconds=int(user_time[6:]))
 
                 # Checks the time, updating the address of the package with id 9 after 10:20am in accordance with the updated customer address.
-                if convert_timedelta > datetime.timedelta(hours=10, minutes=20):
+                if convert_timedelta >= datetime.timedelta(hours=10, minutes=20):
                     hash_table.lookup(9).address = "410 S State Street"
 
                 # Display options to the user 
