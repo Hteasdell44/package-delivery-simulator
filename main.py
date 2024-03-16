@@ -120,12 +120,18 @@ def main():
     truck_three.depart_time = min(truck_one.time, truck_two.time)
     find_optimal_route(truck_three)
 
+    
+
     # Displaying user interface in command line.
 
     # Display a welcome message
     print("\n\033[1mWelcome To The Western Governors University Parcel Service Dashboard!\033[0m")
 
     while True:
+
+        # Resets the delivery address of the ninth package so that if someone searches for an earlier time after a later time, the address will adjust accordingly and persist the updated address. 
+        hash_table.lookup(9).address = "300 State Street"
+
         # Display options to the user
         print("\nWould You Like To:\n")
         print("1. Check Package Status")
